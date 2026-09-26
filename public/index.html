@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Management App</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Workflow</p>
+          <h1>Task Management</h1>
+        </div>
+        <button id="logoutBtn" class="ghost hidden">Log out</button>
+      </header>
+
+      <main>
+        <section id="authSection" class="panel">
+          <div class="auth-toggle">
+            <button class="tab active" data-mode="login">Login</button>
+            <button class="tab" data-mode="register">Register</button>
+          </div>
+
+          <form id="authForm" class="auth-form">
+            <div id="nameField" class="field hidden">
+              <label for="name">Full name</label>
+              <input id="name" name="name" type="text" placeholder="Jane Doe" />
+            </div>
+
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="you@example.com" required />
+            </div>
+
+            <div class="field">
+              <label for="password">Password</label>
+              <input id="password" name="password" type="password" placeholder="••••••••" required />
+            </div>
+
+            <button id="authSubmitBtn" type="submit" class="primary">Login</button>
+          </form>
+        </section>
+
+        <section id="taskSection" class="hidden">
+          <div class="hero card">
+            <div>
+              <p class="eyebrow">Welcome back</p>
+              <h2 id="welcomeName">Your dashboard</h2>
+            </div>
+            <div class="stats">
+              <span class="pill" id="pendingCount">0 pending</span>
+              <span class="pill" id="completedCount">0 done</span>
+            </div>
+          </div>
+
+          <div class="content-grid">
+            <section class="panel task-form-panel">
+              <h3 id="taskFormTitle">Create new task</h3>
+              <form id="taskForm" class="task-form">
+                <input type="hidden" id="taskId" />
+
+                <div class="field">
+                  <label for="taskTitle">Title</label>
+                  <input id="taskTitle" name="title" type="text" placeholder="Prepare sprint backlog" required />
+                </div>
+
+                <div class="field">
+                  <label for="taskDescription">Description</label>
+                  <textarea id="taskDescription" name="description" rows="4" placeholder="Add context, checklist, or next steps"></textarea>
+                </div>
+
+                <div class="row fields-two">
+                  <div class="field">
+                    <label for="taskPriority">Priority</label>
+                    <select id="taskPriority" name="priority">
+                      <option value="low">Low</option>
+                      <option value="medium" selected>Medium</option>
+                      <option value="high">High</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="taskStatus">Status</label>
+                    <select id="taskStatus" name="status">
+                      <option value="pending" selected>Pending</option>
+                      <option value="in-progress">In Progress</option>
+                      <option value="completed">Completed</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="taskDueDate">Due date</label>
+                  <input id="taskDueDate" name="dueDate" type="date" />
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" class="primary">Save task</button>
+                  <button type="button" id="cancelEditBtn" class="secondary hidden">Cancel</button>
+                </div>
+              </form>
+            </section>
+
+            <section class="panel task-list-panel">
+              <div class="list-header">
+                <h3>Tasks</h3>
+                <div class="filter-group">
+                  <button class="filter active" data-filter="all">All</button>
+                  <button class="filter" data-filter="pending">Pending</button>
+                  <button class="filter" data-filter="completed">Done</button>
+                </div>
+              </div>
+              <div id="tasksList" class="tasks-list"></div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
