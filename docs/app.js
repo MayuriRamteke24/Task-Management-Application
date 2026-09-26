@@ -20,12 +20,26 @@ const STORAGE = {
   tasks: 'taskManagerTasks',
 };
 
+const DEFAULT_USER = {
+  name: 'Demo Admin',
+  email: 'admin@taskmanager.com',
+  password: 'admin123',
+};
+
 const state = {
   authMode: 'login',
   user: null,
   tasks: [],
   filter: 'all',
 };
+
+function ensureDefaultUser() {
+  const users = loadUsers();
+  if (!users.some((user) => user.email === DEFAULT_USER.email)) {
+    users.push({ name: DEFAULT_USER.name, email: DEFAULT_USER.email, password: DEFAULT_USER.password });
+    saveUsers(users);
+  }
+}
 
 function loadUsers() {
   return JSON.parse(localStorage.getItem(STORAGE.users) || '[]');
@@ -51,6 +65,13 @@ function setMode(mode) {
   tabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.mode === mode));
   nameField.classList.toggle('hidden', mode !== 'register');
   authSubmitBtn.textContent = mode === 'register' ? 'Create account' : 'Login';
+
+  if (mode === 'login') {
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    if (emailInput && !emailInput.value) emailInput.value = DEFAULT_USER.email;
+    if (passwordInput && !passwordInput.value) passwordInput.value = DEFAULT_USER.password;
+  }
 }
 
 function formatDate(dateString) {
@@ -133,6 +154,7 @@ function resetTaskForm() {
 }
 
 function loadCurrentUser() {
+  ensureDefaultUser();
   const user = JSON.parse(localStorage.getItem(STORAGE.currentUser) || 'null');
   state.user = user;
 

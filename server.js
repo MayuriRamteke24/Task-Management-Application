@@ -17,6 +17,12 @@ if (!fs.existsSync(dataDir)) {
 const db = new Database(path.join(dataDir, 'tasks.db'));
 db.pragma('journal_mode = WAL');
 
+const DEFAULT_USER = {
+  name: 'Demo Admin',
+  email: 'admin@taskmanager.com',
+  password: 'admin123',
+};
+
 const initializeDb = () => {
   db.exec(`
     CREATE TABLE IF NOT EXISTS users (
@@ -41,6 +47,18 @@ const initializeDb = () => {
       FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
     );
   `);
+
+  const existingUser = db.prepare('SELECT id FROM users WHERE email = ?').get(DEFAULT_USER.email);
+  if (!existingUser) {
+    const salt = crypto.randomBytes(16).toString('hex');
+    const passwordHash = hashPassword(DEFAULT_USER.password, salt);
+    db.prepare('INSERT INTO users (name, email, password_hash, salt) VALUES (?, ?, ?, ?)').run(
+      DEFAULT_USER.name,
+      DEFAULT_USER.email,
+      passwordHash,
+      salt
+    );
+  }
 };
 
 initializeDb();

@@ -14,6 +14,11 @@ const cancelEditBtn = document.getElementById('cancelEditBtn');
 const tabs = [...document.querySelectorAll('.tab')];
 const filters = [...document.querySelectorAll('.filter')];
 const tokenKey = 'tmAuthToken';
+const DEFAULT_USER = {
+  name: 'Demo Admin',
+  email: 'admin@taskmanager.com',
+  password: 'admin123',
+};
 
 const state = {
   authMode: 'login',
@@ -39,6 +44,13 @@ function setMode(mode) {
   tabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.mode === mode));
   nameField.classList.toggle('hidden', mode !== 'register');
   authSubmitBtn.textContent = mode === 'register' ? 'Create account' : 'Login';
+
+  if (mode === 'login') {
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    if (emailInput && !emailInput.value) emailInput.value = DEFAULT_USER.email;
+    if (passwordInput && !passwordInput.value) passwordInput.value = DEFAULT_USER.password;
+  }
 }
 
 function formatDate(dateString) {
