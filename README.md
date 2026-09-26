@@ -1,15 +1,23 @@
 # Task Management Application
 
-A full-stack task management app for creating, organizing, and tracking tasks with login-based access control.
+A full-stack task management app for creating, organizing, and tracking daily work with login-based access control.
 
 ## Features
 
-- User registration and login using JWT authentication
-- Create, read, update, and delete tasks
-- Track task status, priority, and due dates
-- Filter tasks by all, pending, and completed states
+- Login and registration tabs
+- Default demo account for quick access
+- Create, update, delete, and complete tasks
+- Task priority, due date, and status tracking
+- Filter tasks by all, pending, and completed categories
 - Real-time updates using Server-Sent Events
-- Responsive web layout for desktop and mobile screens
+- Responsive interface for desktop and mobile screens
+
+## Default login
+
+Use the built-in demo account to log in immediately:
+
+- Email: admin@taskmanager.com
+- Password: admin123
 
 ## Tech Stack
 
@@ -17,39 +25,41 @@ A full-stack task management app for creating, organizing, and tracking tasks wi
 - Express
 - SQLite
 - JWT
-- Vanilla JavaScript frontend
+- Vanilla JavaScript
 
 ## Run locally
 
 1. Install dependencies:
    npm install
-2. Start the application:
+2. Start the app:
    npm start
-3. Open:
+3. Open the browser:
    http://localhost:3000
 
 ## GitHub Pages support
 
-This repository now includes a static Pages-ready version under the docs folder.
+This repository includes a static GitHub Pages version in the docs folder for deployment.
 
-- Full backend app: runs locally with Node.js and Express
-- GitHub Pages version: static frontend in docs/ using localStorage for task persistence
+- Local backend app: Node.js + Express + SQLite
+- Static Pages version: docs/ with browser-based localStorage persistence
 - Deployment workflow: .github/workflows/pages.yml
 
 To publish on GitHub Pages:
-1. Push this repository to GitHub
-2. In GitHub, open Settings > Pages
+1. Push the repository to GitHub
+2. Open Settings > Pages in the GitHub repo
 3. Select GitHub Actions as the source
-4. The workflow in .github/workflows/pages.yml will deploy the app from docs/
+4. The workflow will deploy the app from the docs folder automatically
 
 ## Tests
+
+Run:
 
 npm test
 
 ## Project structure
 
 - server.js — backend API and database setup
-- public/ — frontend assets for local Node app
+- public/ — local frontend for the Express app
 - docs/ — static GitHub Pages version
-- .github/workflows/pages.yml — Pages deployment workflow
-- tests/app.test.js — API verification tests
+- .github/workflows/pages.yml — deployment workflow
+- tests/app.test.js — backend flow verification
