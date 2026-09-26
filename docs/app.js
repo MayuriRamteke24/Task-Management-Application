@@ -162,6 +162,7 @@ function loadCurrentUser() {
     authSection.classList.remove('hidden');
     taskSection.classList.add('hidden');
     logoutBtn.classList.add('hidden');
+    window.location.hash = 'login';
     return;
   }
 
@@ -169,14 +170,22 @@ function loadCurrentUser() {
   authSection.classList.add('hidden');
   taskSection.classList.remove('hidden');
   logoutBtn.classList.remove('hidden');
+  window.location.hash = 'tasks';
   renderTasks();
 }
 
 function handleAuthSubmit(event) {
   event.preventDefault();
+  ensureDefaultUser();
+
   const formData = new FormData(authForm);
-  const email = String(formData.get('email') || '').trim().toLowerCase();
-  const password = String(formData.get('password') || '');
+  let email = String(formData.get('email') || '').trim().toLowerCase();
+  let password = String(formData.get('password') || '');
+
+  if (state.authMode === 'login') {
+    if (!email) email = DEFAULT_USER.email;
+    if (!password) password = DEFAULT_USER.password;
+  }
 
   const users = loadUsers();
 
@@ -315,6 +324,7 @@ function setupEvents() {
     localStorage.removeItem(STORAGE.currentUser);
     state.user = null;
     authForm.reset();
+    window.location.hash = 'login';
     loadCurrentUser();
   });
 }

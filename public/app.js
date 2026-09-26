@@ -20,6 +20,18 @@ const DEFAULT_USER = {
   password: 'admin123',
 };
 
+function ensureDefaultUser() {
+  const existingUsers = JSON.parse(localStorage.getItem('taskManagerUsers') || '[]');
+  if (!existingUsers.some((user) => user.email === DEFAULT_USER.email)) {
+    existingUsers.push({
+      name: DEFAULT_USER.name,
+      email: DEFAULT_USER.email,
+      password: DEFAULT_USER.password,
+    });
+    localStorage.setItem('taskManagerUsers', JSON.stringify(existingUsers));
+  }
+}
+
 const state = {
   authMode: 'login',
   user: null,
@@ -146,11 +158,12 @@ async function loadTasks() {
   }
 }
 
-async function loadUser() {
+async async function loadUser() {
   if (!state.token) {
     authSection.classList.remove('hidden');
     taskSection.classList.add('hidden');
     logoutBtn.classList.add('hidden');
+    window.location.hash = 'login';
     return;
   }
 
@@ -161,6 +174,7 @@ async function loadUser() {
     authSection.classList.add('hidden');
     taskSection.classList.remove('hidden');
     logoutBtn.classList.remove('hidden');
+    window.location.hash = 'tasks';
     await loadTasks();
     connectRealtime();
   } catch (error) {
@@ -336,6 +350,7 @@ function setupEvents() {
     state.tasks = [];
     renderTasks();
     authForm.reset();
+    window.location.hash = 'login';
     loadUser();
   });
 }
